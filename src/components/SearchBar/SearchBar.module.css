@@ -23,9 +23,14 @@
     border-bottom-left-radius: 10px;
 }
 
+.headerButton:hover .headerButtonIcon {
+    fill: black;
+}
+
 .headerButtonIcon {
     width: 20px;
     height: 20px;
+    fill: gray;
 }
 
 .headerInput {

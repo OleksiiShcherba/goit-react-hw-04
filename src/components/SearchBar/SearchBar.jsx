@@ -1,7 +1,7 @@
 import propTypes from "prop-types";
 import toast from "react-hot-toast";
 import css from "./SearchBar.module.css";
-import searchIcon from "../../assets/searchIcon.svg";
+import SearchIcon from "../../assets/SearchIcon.jsx";
 
 const SearchBar = ({ onSubmit }) => {
   const handelSubmit = (e) => {
@@ -17,7 +17,7 @@ const SearchBar = ({ onSubmit }) => {
     <header className={css.header}>
       <form className={css.headerForm} onSubmit={(e) => handelSubmit(e)}>
         <button className={css.headerButton} type="submit">
-          <img className={css.headerButtonIcon} src={searchIcon} />
+          <SearchIcon className={css.headerButtonIcon} />
         </button>
         <input
           className={css.headerInput}
