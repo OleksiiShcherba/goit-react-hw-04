@@ -15,7 +15,7 @@ const SearchIcon = ({ className }) => {
 };
 
 SearchIcon.propTypes = {
-  onSubmit: propTypes.string,
+  className: propTypes.string,
 };
 
 export default SearchIcon;
