@@ -2,7 +2,7 @@ import axios from "axios";
 
 const auth_token = "Client-ID BdxO1O7S3izCS3BsVVT--hQt0dntSCJH-i-vCfUjT18";
 
-axios.defaultse.baseURL = "https://api.unsplash.com";
+axios.defaults.baseURL = "https://api.unsplash.com";
 
 export const requestImages = async (query, page, perPage = 12) => {
   const response = await axios.get("/search/photos", {
@@ -16,5 +16,5 @@ export const requestImages = async (query, page, perPage = 12) => {
     },
   });
 
-  return response.data.results;
+  return response.data;
 };
