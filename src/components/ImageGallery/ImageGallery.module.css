@@ -1,0 +1,9 @@
+.imagesList {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 2000px;
+    padding: 0;
+    padding-top: 20px;
+}

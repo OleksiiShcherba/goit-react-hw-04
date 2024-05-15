@@ -1,13 +1,13 @@
 import propTypes from "prop-types";
-
+import css from "./ImageGallery.module.css";
 import ImageCard from "./ImageCard/ImageCard";
 
 const ImageGallery = ({ images }) => {
   return (
-    <ul>
+    <ul className={css.imagesList}>
       {images.map((image) => {
         return (
-          <li key={image.id}>
+          <li key={image.id} className={css.imagesListElement}>
             <ImageCard
               imageLinkSmall={image.imageLinkSmall}
               alternativeName={image.alternativeName}
