@@ -1,4 +1,15 @@
 .LoadMoreButton {
-    display: flex;
-    justify-content: center;
+    display: block;
+    margin: 10px auto;
+    background-color: #3d43ab;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    min-height: 50px;
+    min-width: 200px;
+    font-size: 20px;
+}
+
+.LoadMoreButton:hover {
+    background-color: #2e34a8;
 }

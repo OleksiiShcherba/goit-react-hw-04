@@ -1,7 +1,7 @@
 import "./App.css";
 import "modern-normalize";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import { Toaster } from "react-hot-toast";
 import useUnsplash from "./hooks/useUnsplash";
 
@@ -16,6 +16,7 @@ function App() {
   const [search, setSearch] = useState("");
   const [error, setError] = useState(null);
   const [isLoad, setLoad] = useState(false);
+  const loadMoreRef = useRef();
 
   const { fetchImages } = useUnsplash(setImages, setError, setLoad);
 
@@ -28,6 +29,12 @@ function App() {
 
     fetchImages(search);
   }, [search]);
+
+  useEffect(() => {
+    if (images?.results) {
+      scrollToLoadMore();
+    }
+  }, [images?.results]);
 
   const imagesForGallery = useMemo(() => {
     const imagesList = images?.results;
@@ -45,8 +52,15 @@ function App() {
     }
   }, [images?.results]);
 
-  const loadMoreAction = (page) => {
-    fetchImages(search, page);
+  const loadMoreAction = async (page) => {
+    await fetchImages(search, page);
+  };
+
+  const scrollToLoadMore = () => {
+    loadMoreRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "end",
+    });
   };
 
   return (
@@ -59,7 +73,10 @@ function App() {
       {isLoad && <Loader />}
       {error && <ErrorMessage errorMessage={error} />}
       {images?.results && images?.page && images.page < images.total_pages && (
-        <LoadMoreBtn onClick={() => loadMoreAction(images.page)} />
+        <LoadMoreBtn
+          endRef={loadMoreRef}
+          onClick={() => loadMoreAction(images.page)}
+        />
       )}
     </>
   );
