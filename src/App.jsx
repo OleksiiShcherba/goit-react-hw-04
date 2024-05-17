@@ -18,25 +18,32 @@ function App() {
   const [error, setError] = useState(null);
   const [isLoad, setLoad] = useState(false);
   const [modalData, setModalData] = useState({});
+  const [page, setPage] = useState(1);
   const loadMoreRef = useRef();
 
   const { fetchImages } = useUnsplash(setImages, setError, setLoad);
 
   useEffect(() => {
-    if (search.length === 0) {
-      return;
+    if (search?.length != 0) {
+      setImages({});
+      setPage(1);
+      loadMoreAction();
     }
-
-    setImages({});
-
-    fetchImages(search);
   }, [search]);
 
   useEffect(() => {
-    if (images?.results?.length > 0) {
-      scrollToLoadMore();
+    if (page > 1) {
+      loadMoreAction();
     }
-  }, [images?.results]);
+  }, [page]);
+
+  useEffect(() => {
+    if (page > 1 && images?.results?.length > 0) {
+      setTimeout(() => {
+        scrollToLoadMore();
+      }, 100);
+    }
+  }, [images]);
 
   const imagesForGallery = useMemo(() => {
     const imagesList = images?.results;
@@ -55,14 +62,16 @@ function App() {
     }
   }, [images?.results]);
 
-  const loadMoreAction = async (page) => {
-    await fetchImages(search, page);
-  };
-
   const scrollToLoadMore = () => {
     loadMoreRef.current.scrollIntoView({
       behavior: "smooth",
       block: "end",
+    });
+  };
+
+  const loadMoreAction = () => {
+    fetchImages(search, page).catch((error) => {
+      setError(error?.message || "An error occurred");
     });
   };
 
@@ -74,6 +83,10 @@ function App() {
     setModalData({ link: imageLink, alt: alt });
   };
 
+  const incrementPage = () => {
+    setPage((prevPage) => prevPage + 1);
+  };
+
   return (
     <div>
       <Toaster position="top-right" />
@@ -83,11 +96,8 @@ function App() {
       )}
       {isLoad && <Loader />}
       {error && <ErrorMessage errorMessage={error} />}
-      {images?.results && images?.page && images.page < images.total_pages && (
-        <LoadMoreBtn
-          endRef={loadMoreRef}
-          onClick={() => loadMoreAction(images.page)}
-        />
+      {images?.results && images?.total_pages && page < images.total_pages && (
+        <LoadMoreBtn endRef={loadMoreRef} onClick={incrementPage} />
       )}
       <ImageModal modalShow={modalData} modalHide={modalHide} />
     </div>

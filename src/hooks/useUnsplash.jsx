@@ -2,7 +2,7 @@ import { requestImages } from "../services/unsplash";
 import { toast } from "react-hot-toast";
 
 const useUnsplash = (setImages, setError, setLoad) => {
-  async function fetchImages(search, page = 1) {
+  async function fetchImages(search, page) {
     try {
       setError(null);
       setLoad(true);
@@ -11,12 +11,11 @@ const useUnsplash = (setImages, setError, setLoad) => {
       if (imagesNew?.results?.length > 0) {
         setImages((prevState) => {
           if (Object.keys(prevState).length === 0) {
-            return { ...imagesNew, page: 2 };
+            return imagesNew;
           } else {
             return {
-              ...prevState,
+              ...imagesNew,
               results: [...prevState.results, ...imagesNew.results],
-              page: prevState.page + 1,
             };
           }
         });
