@@ -8,7 +8,7 @@ const useUnsplash = (setImages, setError, setLoad) => {
       setLoad(true);
 
       const imagesNew = await requestImages(search, page);
-      if (imagesNew?.results) {
+      if (imagesNew?.results?.length > 0) {
         setImages((prevState) => {
           if (Object.keys(prevState).length === 0) {
             return { ...imagesNew, page: 2 };
@@ -20,9 +20,10 @@ const useUnsplash = (setImages, setError, setLoad) => {
             };
           }
         });
+        toast.success("Images loaded successfully");
+      } else {
+        toast.error("No images found");
       }
-
-      toast.success("Images loaded successfully");
     } catch (error) {
       setError(error?.message || "An error occurred");
     } finally {

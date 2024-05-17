@@ -10,12 +10,14 @@ import ImageGallery from "./components/ImageGallery/ImageGallery";
 import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
 import Loader from "./components/Loader/Loader";
 import LoadMoreBtn from "./components/LoadMoreBtn/LoadMoreBtn";
+import ImageModal from "./ImageModal/ImageModal";
 
 function App() {
   const [images, setImages] = useState({});
   const [search, setSearch] = useState("");
   const [error, setError] = useState(null);
   const [isLoad, setLoad] = useState(false);
+  const [modalData, setModalData] = useState({});
   const loadMoreRef = useRef();
 
   const { fetchImages } = useUnsplash(setImages, setError, setLoad);
@@ -31,7 +33,7 @@ function App() {
   }, [search]);
 
   useEffect(() => {
-    if (images?.results) {
+    if (images?.results?.length > 0) {
       scrollToLoadMore();
     }
   }, [images?.results]);
@@ -44,7 +46,8 @@ function App() {
         return {
           id: image?.id,
           imageLinkSmall: image?.urls?.small,
-          alternativeName: image?.description,
+          imageLinkModal: image?.urls?.regular,
+          alternativeName: image?.alt_description ?? image?.description,
         };
       });
     } else {
@@ -63,12 +66,20 @@ function App() {
     });
   };
 
+  const modalHide = () => {
+    setModalData({});
+  };
+
+  const showModal = (imageLink, alt) => {
+    setModalData({ link: imageLink, alt: alt });
+  };
+
   return (
-    <>
+    <div>
       <Toaster position="top-right" />
       <SearchBar onSubmit={setSearch} />
       {imagesForGallery.length > 0 && (
-        <ImageGallery images={imagesForGallery} />
+        <ImageGallery images={imagesForGallery} showModal={showModal} />
       )}
       {isLoad && <Loader />}
       {error && <ErrorMessage errorMessage={error} />}
@@ -78,7 +89,8 @@ function App() {
           onClick={() => loadMoreAction(images.page)}
         />
       )}
-    </>
+      <ImageModal modalShow={modalData} modalHide={modalHide} />
+    </div>
   );
 }
 
