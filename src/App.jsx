@@ -38,7 +38,7 @@ function App() {
   }, [page]);
 
   useEffect(() => {
-    if (page > 1 && images?.results?.length > 0) {
+    if (images?.results?.length > 0 && page > 1) {
       setTimeout(() => {
         scrollToLoadMore();
       }, 100);
