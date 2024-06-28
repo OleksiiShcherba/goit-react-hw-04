@@ -1,7 +1,7 @@
 import propTypes from "prop-types";
 import toast from "react-hot-toast";
 import css from "./SearchBar.module.css";
-import SearchIcon from "../../assets/SearchIcon.jsx";
+import SearchIcon from "../../assets/SearchIcon.tsx";
 
 const SearchBar = ({ onSubmit }) => {
   const handelSubmit = (e) => {
