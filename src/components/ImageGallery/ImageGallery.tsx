@@ -1,35 +1,37 @@
-import propTypes from "prop-types";
+import { FC } from "react";
 import css from "./ImageGallery.module.css";
 import ImageCard from "./ImageCard/ImageCard";
 
-const ImageGallery = ({ images, showModal }) => {
-  return (
-    <ul className={css.imagesList}>
-      {images.map((image) => {
-        return (
-          <li key={image.id} className={css.imagesListElement}>
-            <ImageCard
-              imageLinkSmall={image.imageLinkSmall}
-              alternativeName={image.alternativeName}
-              imageLinkModal={image.imageLinkModal}
-              showModal={showModal}
-            />
-          </li>
-        );
-      })}
-    </ul>
-  );
+type GalaryImage = {
+  id: string;
+  imageLinkSmall: string;
+  imageLinkModal: string;
+  alternativeName: string | undefined;
 };
 
-ImageGallery.propTypes = {
-  images: propTypes.arrayOf(
-    propTypes.shape({
-      id: propTypes.string.isRequired,
-      imageLinkSmall: propTypes.string.isRequired,
-      alternativeName: propTypes.string.isRequired,
-    })
-  ),
-  showModal: propTypes.func.isRequired,
+type ImageGalleryProps = {
+  imagesForGallery: GalaryImage[];
+  showModal: (imageLink: string, alt: string) => void;
+};
+
+const ImageGallery: FC<ImageGalleryProps> = ({
+  imagesForGallery,
+  showModal,
+}) => {
+  return (
+    <ul className={css.imagesList}>
+      {imagesForGallery.map((image) => (
+        <li key={image.id} className={css.imagesListElement}>
+          <ImageCard
+            imageLinkSmall={image.imageLinkSmall}
+            alternativeName={image?.alternativeName ?? "No description"}
+            imageLinkModal={image.imageLinkModal}
+            showModal={showModal}
+          />
+        </li>
+      ))}
+    </ul>
+  );
 };
 
 export default ImageGallery;

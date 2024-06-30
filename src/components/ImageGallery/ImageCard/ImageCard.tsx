@@ -1,7 +1,14 @@
-import propTypes from "prop-types";
+import { FC, MouseEvent } from "react";
 import css from "./ImageCard.module.css";
 
-const ImageCard = ({
+type ImageCardProps = {
+  imageLinkSmall: string;
+  alternativeName: string;
+  imageLinkModal: string;
+  showModal: (imageLink: string, alt: string) => void;
+};
+
+const ImageCard: FC<ImageCardProps> = ({
   imageLinkSmall,
   alternativeName,
   imageLinkModal,
@@ -13,17 +20,12 @@ const ImageCard = ({
         className={css.imageElement}
         src={imageLinkSmall}
         alt={alternativeName}
-        onClick={() => showModal(imageLinkModal, alternativeName)}
+        onClick={(event: MouseEvent<HTMLImageElement>) =>
+          showModal(imageLinkModal, alternativeName)
+        }
       />
     </div>
   );
-};
-
-ImageCard.propTypes = {
-  imageLinkSmall: propTypes.string.isRequired,
-  alternativeName: propTypes.string.isRequired,
-  imageLinkModal: propTypes.string.isRequired,
-  showModal: propTypes.func.isRequired,
 };
 
 export default ImageCard;

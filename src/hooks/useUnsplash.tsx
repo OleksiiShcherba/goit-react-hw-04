@@ -1,15 +1,24 @@
 import { requestImages } from "../services/unsplash";
 import { toast } from "react-hot-toast";
+import { Images } from "../components/App/App.type";
 
-const useUnsplash = (setImages, setError, setLoad) => {
-  async function fetchImages(search, page) {
+type SetImages = (images: any) => void;
+type SetError = (error: string | null) => void;
+type SetLoad = (isLoading: boolean) => void;
+
+const useUnsplash = (
+  setImages: SetImages,
+  setError: SetError,
+  setLoad: SetLoad
+) => {
+  async function fetchImages(search: string, page: number): Promise<void> {
     try {
       setError(null);
       setLoad(true);
 
-      const imagesNew = await requestImages(search, page);
-      if (imagesNew?.results?.length > 0) {
-        setImages((prevState) => {
+      const imagesNew: Images = await requestImages(search, page);
+      if (imagesNew.results.length > 0) {
+        setImages((prevState: Images): Images => {
           if (Object.keys(prevState).length === 0) {
             return imagesNew;
           } else {
@@ -24,7 +33,7 @@ const useUnsplash = (setImages, setError, setLoad) => {
         toast.error("No images found");
       }
     } catch (error) {
-      setError(error?.message || "An error occurred");
+      setError("An error occurred");
     } finally {
       setLoad(false);
     }

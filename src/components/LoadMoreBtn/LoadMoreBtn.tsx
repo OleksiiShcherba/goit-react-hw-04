@@ -1,7 +1,12 @@
 import css from "./LoadMoreBtn.module.css";
-import propTypes from "prop-types";
+import { FC, RefObject } from "react";
 
-const LoadMoreBtn = ({ endRef, onClick }) => {
+type LoadMoreBtnProps = {
+  endRef: RefObject<HTMLDivElement>;
+  onClick: () => void;
+};
+
+const LoadMoreBtn: FC<LoadMoreBtnProps> = ({ endRef, onClick }) => {
   return (
     <>
       <button className={css.LoadMoreButton} type="button" onClick={onClick}>
@@ -10,11 +15,6 @@ const LoadMoreBtn = ({ endRef, onClick }) => {
       <div ref={endRef}></div>
     </>
   );
-};
-
-LoadMoreBtn.propTypes = {
-  endRef: propTypes.object.isRequired,
-  onClick: propTypes.func.isRequired,
 };
 
 export default LoadMoreBtn;

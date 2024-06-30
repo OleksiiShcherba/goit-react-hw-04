@@ -1,13 +1,18 @@
-import propTypes from "prop-types";
 import toast from "react-hot-toast";
 import css from "./SearchBar.module.css";
-import SearchIcon from "../../assets/SearchIcon.tsx";
+import SearchIcon from "../../assets/SearchIcon";
+import { FC, FormEvent } from "react";
 
-const SearchBar = ({ onSubmit }) => {
-  const handelSubmit = (e) => {
+type SearchBarProps = {
+  onSubmit: (searchQuery: string) => void;
+};
+
+const SearchBar: FC<SearchBarProps> = ({ onSubmit }) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (e.target.search.value.length > 0) {
-      onSubmit(e.target.search.value);
+    const searchQuery = (e.target as HTMLFormElement).search.value;
+    if (searchQuery.length > 0) {
+      onSubmit(searchQuery);
     } else {
       toast.error("Please enter a search query");
     }
@@ -15,7 +20,7 @@ const SearchBar = ({ onSubmit }) => {
 
   return (
     <header className={css.header}>
-      <form className={css.headerForm} onSubmit={(e) => handelSubmit(e)}>
+      <form className={css.headerForm} onSubmit={handleSubmit}>
         <button className={css.headerButton} type="submit">
           <SearchIcon className={css.headerButtonIcon} />
         </button>
@@ -30,10 +35,6 @@ const SearchBar = ({ onSubmit }) => {
       </form>
     </header>
   );
-};
-
-SearchBar.propTypes = {
-  onSubmit: propTypes.func.isRequired,
 };
 
 export default SearchBar;

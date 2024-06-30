@@ -1,16 +1,16 @@
 import css from "./ErrorMessage.module.css";
-import propTypes from "prop-types";
+import { FC } from "react";
 
-const ErrorMessage = ({ errorMessage }) => {
+type ErrorMessageProps = {
+  errorMessage: string;
+};
+
+const ErrorMessage: FC<ErrorMessageProps> = ({ errorMessage }) => {
   return (
     <div className={css.errorMessage}>
       <p>{errorMessage}</p>
     </div>
   );
-};
-
-ErrorMessage.propTypes = {
-  errorMessage: propTypes.string.isRequired,
 };
 
 export default ErrorMessage;
