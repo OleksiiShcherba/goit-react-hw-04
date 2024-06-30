@@ -2,7 +2,9 @@ import { requestImages } from "../services/unsplash";
 import { toast } from "react-hot-toast";
 import { Images } from "../components/App/App.type";
 
-type SetImages = (images: any) => void;
+type SetImagesWithPrevState = (prevState: Images) => Images;
+type SetImages = (images: Images | SetImagesWithPrevState) => void;
+
 type SetError = (error: string | null) => void;
 type SetLoad = (isLoading: boolean) => void;
 
